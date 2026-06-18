@@ -28,13 +28,14 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "key_name" {
-  description = "Name of an existing EC2 key pair (created in the AWS console or via `aws ec2 create-key-pair`) used for SSH access"
+variable "public_key_path" {
+  description = "Path to your local SSH public key file. Terraform will read this and register it as an AWS key pair. Use pathexpand-friendly syntax like ~/.ssh/id_rsa.pub or ~/.ssh/id_ed25519.pub — check which one your other project uses."
   type        = string
+  default     = "~/.ssh/id_rsa.pub"
 }
 
 variable "ssh_allowed_cidr" {
   description = "CIDR block allowed to SSH into the instance. Defaults to open (0.0.0.0/0) on purpose so Checkov flags it in Phase 7 — override this in terraform.tfvars with your own IP/32 for real use."
   type        = string
-  default     = "0.0.0.0/0"
+  default     = "81.134.251.146/32"
 }

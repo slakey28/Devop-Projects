@@ -10,5 +10,5 @@ output "instance_id" {
 
 output "ssh_command" {
   description = "Convenience SSH command"
-  value       = "ssh -i <path-to-your-key>.pem ubuntu@${aws_instance.app.public_ip}"
+  value       = "ssh -i (~/.ssh/your public key) ubuntu@${aws_instance.app.public_ip}"
 }

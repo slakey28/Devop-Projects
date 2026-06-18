@@ -18,7 +18,7 @@ resource "aws_instance" "app" {
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.app.id]
-  key_name               = var.key_name
+  key_name               = aws_key_pair.terraform.key_name
 
   # IMDSv2 only — a common Checkov/security-scanner finding if left on IMDSv1
   metadata_options {
