@@ -1,40 +1,48 @@
-resource "aws_security_group" "web" {
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"] # Canonical's official AWS account ID
 
-  name = "web-sg"
-
-  vpc_id = aws_vpc.main.id
-
-  ingress {
-
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-
-    cidr_blocks = [
-      "YOUR_PUBLIC_IP/32"
-    ]
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
-  ingress {
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
 
-    from_port = 80
-    to_port = 80
-    protocol = "tcp"
+resource "aws_instance" "app" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.public.id
+  vpc_security_group_ids = [aws_security_group.app.id]
+  key_name               = var.key_name
 
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
+  # IMDSv2 only — a common Checkov/security-scanner finding if left on IMDSv1
+  metadata_options {
+    http_tokens   = "required"
+    http_endpoint = "enabled"
   }
 
-  egress {
-
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-
-    cidr_blocks = [
-      "0.0.0.0/0"
-    ]
+  root_block_device {
+    volume_size = 8
+    volume_type = "gp3"
+    encrypted   = true
   }
 
+  user_data = <<-EOF
+              #!/bin/bash
+              set -e
+              apt-get update -y
+              apt-get install -y docker.io
+              systemctl enable docker
+              systemctl start docker
+              usermod -aG docker ubuntu
+              EOF
+
+  tags = {
+    Name = "${var.project_name}-instance"
+  }
 }

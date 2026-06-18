@@ -1,0 +1,6 @@
+# Copy this file to terraform.tfvars and fill in your own values.
+# terraform.tfvars should NOT be committed to git if it contains anything sensitive.
+
+aws_region       = "eu-west-2"
+key_name         = "your-ec2-key-pair-name"   # must already exist in AWS
+ssh_allowed_cidr = "YOUR_IP_HERE/32"           # find yours at https://checkip.amazonaws.com

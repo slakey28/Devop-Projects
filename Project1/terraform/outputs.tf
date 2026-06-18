@@ -1,16 +1,14 @@
-data "aws_ami" "ubuntu" {
+output "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.app.public_ip
+}
 
-  most_recent = true
+output "instance_id" {
+  description = "ID of the EC2 instance"
+  value       = aws_instance.app.id
+}
 
-  owners = ["099720109477"]
-
-  filter {
-
-    name = "name"
-
-    values = [
-      "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
-    ]
-  }
-
+output "ssh_command" {
+  description = "Convenience SSH command"
+  value       = "ssh -i <path-to-your-key>.pem ubuntu@${aws_instance.app.public_ip}"
 }
