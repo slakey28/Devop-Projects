@@ -146,3 +146,4 @@ Roadmap
 License
 
 This is a personal learning project. Use, fork, or adapt freely.
+# trigger
