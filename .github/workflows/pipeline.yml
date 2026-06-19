@@ -93,18 +93,18 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            # Pull the latest code onto the instance
-            if [ -d "devsecops-flask-pipeline" ]; then
-              cd devsecops-flask-pipeline && git pull
+            # Clone or pull latest code
+            if [ -d "Devop-Projects" ]; then
+              cd Devop-Projects && git pull
             else
               git clone https://github.com/${{ github.repository }}.git
-              cd devsecops-flask-pipeline
+              cd Devop-Projects
             fi
 
-            # Build the image directly on the instance
+            # Build the image
             docker build -t flask-demo:latest .
 
-            # Swap the running container with zero manual steps
+            # Swap the running container
             docker stop flask-app 2>/dev/null || true
             docker rm flask-app 2>/dev/null || true
 
