@@ -31,7 +31,7 @@ variable "instance_type" {
 variable "public_key_path" {
   description = "Path to your local SSH public key file. Terraform will read this and register it as an AWS key pair. Use pathexpand-friendly syntax like ~/.ssh/id_rsa.pub or ~/.ssh/id_ed25519.pub — check which one your other project uses."
   type        = string
-  default     = "~/your public ssh key"
+  default     = "~/.ssh/id_rsa.pub"
 }
 
 variable "ssh_allowed_cidr" {

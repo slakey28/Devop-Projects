@@ -2,5 +2,5 @@
 # terraform.tfvars should NOT be committed to git if it contains anything sensitive.
 
 aws_region       = "eu-west-2"
-public_key_path  = ("~/your public ssh key")          # path to YOUR public key — adjust if yours is named differently
+public_key_path  = "~/.ssh/id_rsa.pub"          # path to YOUR public key — adjust if yours is named differently
 ssh_allowed_cidr = "0.0.0.0/32"           # find yours at https://checkip.amazonaws.com
