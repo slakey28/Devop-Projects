@@ -24,6 +24,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r app/requirements.txt
 
+      - name: Debug environment
+        run: |
+          echo "Working directory: $(pwd)"
+          echo "PYTHONPATH: $PYTHONPATH"
+          ls -la
+          ls -la app/
+          ls -la tests/
+          python -c "import sys; print(sys.path)"
+
       - name: Run tests
         run: pytest tests/ -v
         env:
