@@ -26,6 +26,8 @@ jobs:
 
       - name: Run tests
         run: pytest tests/ -v
+        env:
+          PYTHONPATH: ${{ github.workspace }}
 
   # ── Stage 2: Checkov — IaC Security Scan ────────────────────────────────────
   checkov:
